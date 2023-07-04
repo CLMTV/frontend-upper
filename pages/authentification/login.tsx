@@ -1,11 +1,8 @@
 import {signIn} from "next-auth/react"
-import {useEffect, useState} from "react";
-import useGetUserById from "@/hooks/user/useGetUserById";
-import {useSession} from "next-auth/react";
-import {session} from "next-auth/core/routes";
+import {useState} from "react";
+
 const Login = () => {
 
-    const user = useGetUserById()
     const [userInfo, setUserInfo] = useState({
         email: "",
         password: ""
@@ -22,17 +19,6 @@ const Login = () => {
         console.log(res)
     }
 
-    const handleGetById = async (e: any) => {
-        e.preventDefault()
-        await user.fetchData(3)
-    }
-
-    useEffect(() => {
-        if (user.data) {
-            console.log(user.data)
-        }
-    }, [user.data])
-
     return (
         <>
             <form>
@@ -40,7 +26,7 @@ const Login = () => {
                 <input onChange={(e) => setUserInfo({...userInfo, password: e.target.value})}/>
                 <button onClick={handleLogin}>Login</button>
             </form>
-            <button onClick={handleGetById}>GetById</button>
+
 
         </>
     )
