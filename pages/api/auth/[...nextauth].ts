@@ -6,6 +6,7 @@ import {router} from "next/client";
 interface User {
     access_token: string
 }
+
 export default NextAuth({
     secret: process.env.AUTH_SECRET,
     providers: [
@@ -22,16 +23,17 @@ export default NextAuth({
             },
             async authorize(credentials: any, req) {
                 try {
-                    const formData = new URLSearchParams()
-                    formData.append('username', credentials?.email)
-                    formData.append('password', credentials?.password)
+                    const jsonData = {
+                        email: credentials?.email,
+                        password: credentials?.password,
+                    }
 
-                    const endpoint = 'http://localhost:8000/token/'
+                    const endpoint = 'http://localhost:4000/user/login'
                     const config = {
                         method: 'POST',
-                        body: formData,
+                        body: JSON.stringify(jsonData),
                         headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Content-Type': 'application/json',
                         },
                     }
                     const user: any = await fetchWrapper(endpoint, config)
@@ -47,12 +49,17 @@ export default NextAuth({
                 return null
             }
 
+
         }),
     ],
 
     callbacks: {
         async signIn({user, account, profile, email, credentials}) {
-            return true
+            if (user) {
+                return true;
+            } else {
+                return false;
+            }
         },
         async jwt({token, user, account}) {
             if (account && user) {
