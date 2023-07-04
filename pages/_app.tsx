@@ -7,7 +7,6 @@ export default function App({Component, pageProps: {session, ...pageProps}}: App
     return (
         <SessionProvider session={session}>
                 <Component {...pageProps} />
-                {/*<Navigation/>*/}
         </SessionProvider>
 
     )
