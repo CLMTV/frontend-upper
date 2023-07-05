@@ -14,7 +14,7 @@ const useUpdateUser = <T>(): {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchData = useCallback(async (courseData: Course) => {
-        const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}user/update/${courseData.id}`;
+        const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}course/update/${courseData.id}`;
 
         setIsLoading(true);
         setError(null);
