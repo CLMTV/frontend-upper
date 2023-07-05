@@ -13,7 +13,7 @@ const useUpdateUser = <T>(): {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchData = useCallback(async (userData: any) => {
-        const endpoint = `http://localhost:4000/user/update/${userData.id}`;
+        const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}user/update/${userData.id}`;
 
         setIsLoading(true);
         setError(null);

@@ -28,7 +28,7 @@ export default NextAuth({
                         password: credentials?.password,
                     }
 
-                    const endpoint = 'http://localhost:4000/user/login'
+                    const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}user/login`
                     const config = {
                         method: 'POST',
                         body: JSON.stringify(jsonData),
@@ -61,12 +61,12 @@ export default NextAuth({
             // Persist the OAuth access_token and or the user id to the token right after signin
             if (account) {
                 token.accessToken = user.token
-                console.log(token,'toto')
+                console.log(token, 'toto')
             }
             return token
         },
 
-        async session({ session, token, user }) {
+        async session({session, token, user}) {
             // Send properties to the client, like an access_token and user id from a provider.
             session.accessToken = token.accessToken
             console.log(session)

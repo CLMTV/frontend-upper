@@ -13,7 +13,7 @@ const useDeleteUser = <T>(): {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchData = useCallback(async (id: number) => {
-        const endpoint = `http://localhost:4000/user/deleteById/${id}`;
+        const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}user/deleteById/${id}`;
         setIsLoading(true);
         setError(null);
         setData(null);

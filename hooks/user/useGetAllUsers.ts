@@ -13,7 +13,7 @@ const useGetUserById = <T>(): {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchData = useCallback(async () => {
-        const endpoint = `http://localhost:4000/user/getAll`;
+        const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}user/getAll`;
 
         setIsLoading(true);
         setError(null);

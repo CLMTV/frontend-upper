@@ -1,34 +1,35 @@
 import {useCallback, useState} from "react";
 import {fetchWrapper} from "@/utils/fetchWrapper";
-import {UserData} from "@/types/user";
+import {getSession} from "next-auth/react";
 
-const useRegister = <T>(): {
+const useCreateVideo = <T>(): {
     data: T | null;
     error: any;
     isLoading: boolean;
-    fetchData: (userData: UserData) => Promise<void>;
+    fetchData: (link: string) => Promise<void>;
 } => {
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}user/create`
+    const endpoint = `${process.env.NEXT_PUBLIC_ENDPOINT}video/create`;
 
-    const fetchData = useCallback(async (userData: UserData) => {
+    const fetchData = useCallback(async (link: string) => {
         setIsLoading(true);
         setError(null);
         setData(null);
-
         try {
+            const session = await getSession();
+            // @ts-ignore
+            const token = session?.accessToken;
+
             const config = {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify({
-                    "firstname": userData.firstname,
-                    "lastname": userData.lastname,
-                    "email": userData.email,
-                    "password": userData.password,
-                    "roleId": userData.roleId,
-                    "planId": userData.planId
+                    "link": link,
                 })
             };
             const result = await fetchWrapper<T>(endpoint, config);
@@ -41,6 +42,7 @@ const useRegister = <T>(): {
     }, []);
 
     return {data, error, isLoading, fetchData};
+
 };
 
-export default useRegister;
+export default useCreateVideo;
